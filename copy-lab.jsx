@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 
 const COPY_TYPES = [
   { value: "headline", label: "Headline" },
@@ -20,14 +22,14 @@ const TONE_TAGS = [
   "Bold", "Empowering", "Witty", "Grounded",
 ];
 
-const API_URL = "https://api.anthropic.com/v1/messages";
+const API_URL = "/api/claude";
 
 async function callClaude(systemPrompt, userPrompt) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-4-6",
       max_tokens: 1000,
       system: systemPrompt,
       messages: [{ role: "user", content: userPrompt }],
@@ -94,6 +96,8 @@ function Pill({ type, children }) {
 }
 
 export default function CopyLab() {
+  useEffect(() => { document.title = "copy/lab"; }, []);
+
   const [mode, setMode] = useState("generate");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -257,7 +261,7 @@ Return this exact JSON:
             ))}
           </div>
 
-          <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#B0ABA4", letterSpacing: "0.05em" }}>Millennials · Gen Z</span>
+          <span />
         </header>
 
         {/* ── Body ── */}
